@@ -1,0 +1,130 @@
+---
+title: "Q2"
+author: "Huiyan Li"
+date: "3/29/2020"
+output: html_document
+---
+
+### **Using for loop to find all combination from this population with replacement and sample size of n = 3**
+```{r}
+# Calculate the 125 combination of the population possible
+combination_list = vector()
+for (valA in c(21:25)) {
+  for (valB in c(21:25)) {
+    for (valC in c(21:25)) {
+      combination_list <- c(combination_list, c(valA, valB, valC))
+    }
+  }
+}
+combination_list <- matrix(combination_list, ncol = 3, byrow=TRUE) 
+colnames(combination_list) <-  c("Col1", "Col2", "Col3")
+```
+
+Given that in the assignment hand out, the equation is using $X_{i} - \overline{X}$ \
+Therefore, I am assuming $\overline{X}$ is referring to the sample mean of the combination list\
+As we don't know the actual global mean $\mu$ \
+```{r}
+sample_mean = mean(combination_list)
+sample_variance_list = vector()
+sigma_variance_list = vector()
+for (row in 1:nrow(combination_list)) {
+  sample = c(combination_list[row, 0:3])
+  
+  # Compute the sample variances using the first equation
+  sample_variance = sum((sample - mean(sample))**2)/2
+  sample_variance_list <- c(sample_variance_list, sample_variance)
+
+  # Compute the sample variances using the second equation
+  sigma_variance = sum((sample - mean(sample))**2)/3
+  sigma_variance_list <- c(sigma_variance_list, sigma_variance)
+}
+```
+
+```{r}
+s = sample_variance_list
+s
+```
+
+```{r}
+sigma = sigma_variance_list
+sigma
+```
+
+### **A. By calculating $Bias[S^{2}]$ and $Bias[\hat{\sigma^{2}}]$ check the unbiasedness of these two estimators**
+
+We know that the population variance is 2 given from the assigment\
+$Bias[S^{2}] = E(S^{2}) - S^{2}$ \
+$Bias[S^{2}] = E(\overline{S^{2}}) - S^{2}$ \
+$Bias[S^{2}] = E(mean(S^{2})) - S^{2}$ \
+$Bias[S^{2}] = mean(S^{2}) - S^{2}$ \
+$Bias[S^{2}] = mean(S^{2}) - 2$ \
+```{r}
+# Given from the assignment
+population_variance = 2
+s_bias = mean(s) - population_variance
+s_bias
+```
+
+Simiarly for $Bias[\sigma^{2}]$ \
+$Bias[\sigma^{2}] = E(\sigma^{2}) - \sigma^{2}$ \
+$Bias[\sigma^{2}] = E(\overline{\sigma^{2}}) - \sigma^{2}$ \
+$Bias[\sigma^{2}] = E(mean(\sigma^{2})) - \sigma^{2}$ \
+$Bias[\sigma^{2}] = mean(\sigma^{2}) - \sigma^{2}$ \
+$Bias[\sigma^{2}] = mean(\sigma^{2}) - 2$ \
+```{r}
+# Given from the assignment
+population_variance = 2
+sigma_bias = mean(sigma) - population_variance
+sigma_bias
+```
+
+From this, we can conclude that the $S^{2}$ is bias, and the $\sigma^{2}$ is not bias. 
+
+
+### **B. By calculating all three components separately check the following identity**
+Given the equation, $MSE[\hat{\sigma^{2}}] = var[\hat{\sigma^{2}}] + (Bias[\hat{\sigma^{2}}])^{2}$ \
+$var[\hat{\sigma^{2}}]$ \
+```{r}
+# Given from the assignment
+population_variance = 2
+sigma_variance = sum((sigma - population_variance)**2)/125  
+sigma_variance
+```
+
+$Bias[\hat{\sigma^{2}}]^{2}$ \
+```{r}
+sigma_bias_square = sigma_bias**2
+sigma_bias_square
+```
+
+$MSE[\hat{\sigma^{2}}]$ \
+```{r}
+mse = sigma_variance + sigma_bias_square
+mse
+```
+Knowing that $Bias[\hat{\sigma^{2}}]^{2} = 0$, implies $MSE[\hat{\sigma^{2}}] = var[\hat{\sigma^{2}}]$ \
+Which decreases as N (sample size) increases, we can conclude MSE is consistent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

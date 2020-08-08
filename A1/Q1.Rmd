@@ -1,0 +1,87 @@
+---
+title: "Q1"
+author: "Huiyan Li"
+date: "3/29/2020"
+output: html_document
+---
+
+### **A. Calculate the population mean**
+
+```{r}
+population = c(21, 22, 23, 24, 25)
+# mean = Sum of number divide by the number of item
+populationMean = mean(population) # Output: 23
+populationMean
+```
+
+### **B. Calculate the population variance**
+```{r}
+populationVariance = sum((population - populationMean)**2)/5  # Output: 2
+populationVariance
+```
+
+
+### **C. Find all combination from this population with replacement and sample size of n = 3**
+Using for loop to generate all possible combination of the population
+```{r}
+combinationList = vector()
+for (valA in c(21:25)) {
+  for (valB in c(21:25)) {
+    for (valC in c(21:25)) {
+      combinationList <- c(combinationList, c(valA, valB, valC))
+    }
+  }
+}
+combinationList <- matrix(combinationList, ncol = 3, byrow=TRUE) 
+colnames(combinationList) <-  c("Col1", "Col2", "Col3")
+```
+
+### **D. Calculate the sample mean of each row of sample 3 from part C**
+For looping through each row and compute its mean, and save it to the X_bar vector object
+```{r}
+X_bar = vector()
+for (row in 1:nrow(combinationList)) {
+  sampleMean = mean(c(combinationList[row,0:3]))
+  X_bar <- c(X_bar, sampleMean)
+}
+
+```
+
+
+### **E. Construct a frequency table based on the column X bar**
+Using built in function data.frame to auto-compute the frequency 
+```{r}
+frequencyTable = as.data.frame(table(X_bar))
+frequencyTable
+```
+
+### **F. Plot these proportions against the values and connect the points using a non-linear line.**
+Convert the X_bar to table format which also list out the frequency per value
+This table format is easier to plot
+```{r}
+frequencyTablePlot = table(X_bar)
+plot(frequencyTablePlot, type="o", col="blue")
+title(main="Mean vs Frequency", col.main="Black", font.main=4)
+```
+
+**The output graph looks very much like normal distribution**
+
+### **G. Using the table of proportions or otherwise, calculate the mean of these 125 numbers (values under X bar) and compare it to your answer of 1(a)**
+```{r}
+X_barMean = mean(X_bar) # Output : 23
+X_barMean
+```
+The output from the mean of X_bar is identical to the mean that we computed from part A
+
+### **H. Using the table of proportions or otherwise, calculate the variance of these 125 numbers. Use the population variance formula (i.e. divide by 125 not 124). What is the relationship of this answer to your answer of 1(b)?**
+```{r}
+X_barVariance = sum((X_bar - X_barMean)**2)/125  # Output: 0.666667
+X_barVariance
+```
+The original variance computed from 1.B was 2, which is very different than the 0.6666 computed from this.
+This is because involves more data set, and the variance computed from $\overline{X}$ is much more reliable due to larger sample size, which result in a smaller variance.
+
+
+### **I. Which theorem did you demonstrate empirically in part f, g and h?**
+F, G, H, demonstrate the Central Limit Theorem, which states \
+**Sampling distribution of the sample means approaches a normal distribution as the sample size gets larger — no matter what the shape of the population distribution.**

@@ -1,0 +1,67 @@
+---
+title: "Q1"
+author: "Huiyan Li"
+date: "4/18/2020"
+output: html_document
+---
+
+# Assignment 2: Question 1
+
+### A) Suppose we decide to collect 30 observations (n = 30). Calculate Power of this test.
+```{r}
+n = 30
+sigma_square = 16
+sigma = sqrt(sigma_square)
+alpha = 0.05
+mu_null = 5
+mu_alpha = 4
+significance = alpha
+```
+
+$Z_0 = \frac{\overline{X} - \mu_0}{\sigma / \sqrt{n}}$ \
+$\overline{X} = Z_{\alpha} * \sigma / \sqrt{n} + \mu_0$ \
+$\overline{X} = Z_{0.05} * (4 / \sqrt{30}) + 5$ \
+$\overline{X} = -1.644854 * 0.73029674334 + 5$ \
+$\overline{X} = 3.79876848$ \
+$Power = P[\overline{X} \lt 3.79876848$ Under the $H_{\alpha}]$ \
+
+$P[Z \le \frac{\overline{X} - \mu_{\alpha}}{\sigma / \sqrt{n}}] = 1 - P[Z \gt \frac{3.79876848 - 4}{4/\sqrt{30}}] = 1 - pnorm(-0.27554760696) = 1 - 0.3914478 = 0.6085521$ \
+$Power = 0.6085521$ \
+```{r}
+sigma = sqrt(sigma_square)
+x_bar = qnorm(significance) * (sigma / sqrt(n)) + mu_null
+probability = (x_bar - mu_alpha) / (sigma / sqrt(n))
+power = 1 - pnorm(probability)
+power
+```
+
+
+### 1.B) Suppose we want to ensure that the power is 80%. What should be the sample size? (n=?)
+- $P = \frac{\overline{X} - \mu_0}{\sigma / \sqrt{n}}$ 
+- $n = (\frac{p * \sigma}{\overline{X} - \mu_\alpha})^2 = (\frac{qnorm(1 - 0.8)*4}{3.79876848-4})^2 = (16.72941)^2 = 279.8732$ 
+```{r}
+power = 0.8
+reverse_probability = qnorm(1 - 0.8)
+estimated_n = ((reverse_probability * sigma)/ (x_bar - mu_alpha))**2
+estimated_n
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

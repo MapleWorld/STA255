@@ -1,0 +1,82 @@
+---
+title: "Q3"
+author: "Huiyan Li"
+date: "3/29/2020"
+output: html_document
+---
+
+### **A. when n = 2, $X ∼ Unif[0, 1]$ **
+```{r}
+sample_4m_normal = function(x) {
+  s = runif(2, min = 0, max = 1)
+  return (mean(s))
+}
+X_bar = replicate(100000, sample_4m_normal())
+plot(density(X_bar))
+```
+
+### **B. when n = 5, $X ∼ Unif[0, 1]$ **
+```{r}
+sample_4m_normal = function(x) {
+  s = runif(5, min = 0, max = 1)
+  return (mean(s))
+}
+X_bar = replicate(100000, sample_4m_normal())
+plot(density(X_bar))
+```
+
+### **C. when n = 5, $X ∼ x^{2}_{df = 2}$ **
+```{r}
+sample_4m_normal = function(x) {
+  s = rchisq(5, 2)
+  return (mean(s))
+}
+X_bar = replicate(100000, sample_4m_normal())
+plot(density(X_bar))
+```
+
+### **D. when n = 30, $X ∼ x^{2}_{df = 2}$ **
+```{r}
+sample_4m_normal = function(x) {
+  s = rchisq(30, 2)
+  return (mean(s))
+}
+X_bar = replicate(100000, sample_4m_normal())
+plot(density(X_bar))
+```
+
+### **E. when n = 5, $X ∼ x^{2}_{df = 50}$ **
+```{r}
+sample_4m_normal = function(x) {
+  s = rchisq(5, 50)
+  return (mean(s))
+}
+X_bar = replicate(100000, sample_4m_normal())
+plot(density(X_bar))
+```
+
+### **F. CLT says for large n, $\overline{X}$ converges (in distribution) to a Normal distribution **
+By comparing your graphs from parts (a) to (e), can you comment on how large n has to be in order for $\overline{X}$ to converge to a Normal distribution. \
+
+For uniform distribution, the n needs to be greater than 10,000 to show a good shape of the normal distribution \
+For Chi-Squared distribution, the n needs to be greater than 10,000 to show a good shape of the normal distribution \
+
+### **G. Plot three separate density curves for $Unif[0, 1], χ^{2}_{df = 2}$ and $X^{2}_{df = 50}$ **
+Looking at the skewness of these three curves, what comments can you make on the question asked in part(f)?
+
+$Unif[0, 1]$ \
+```{r}
+plot(density(runif(10000, min = 0, max = 1)))
+```
+
+$χ^{2}_{df = 2}$ \
+```{r}
+plot(density(rchisq(10000, 2)))
+```
+
+$χ^{2}_{df = 50}$ \
+```{r}
+plot(density(rchisq(10000, 50)))
+```
+
+From these graphs, we can see that the density graph indeed shows the density coverge to a normal distribution shape as the sample size gets larger, however, the skewness of these density graphs also indicates how quickly one can converge to a normal distribution, as it shows where the value are distributed.
